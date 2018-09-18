@@ -65,3 +65,10 @@ jobs:
         archiveFile: '$(Build.ArtifactStagingDirectory)/CalculatorDocs-$(Build.BuildId).zip' 
 
     - task: PublishBuildArtifacts@1
+
+    - task: Docker@1
+      displayName: 'Build image for docs website'
+      workingDirectory: './docs/CalculatorDocumentation'
+      inputs:
+        azureSubscriptionEndpoint: 'Microsoft Azure Sponsorship (b33f0285-db27-4896-ac5c-df22004b0aba)'
+        azureContainerRegistry: bastadocfx.azurecr.io
