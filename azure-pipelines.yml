@@ -70,5 +70,5 @@ jobs:
       displayName: 'Build image for docs website'
       inputs:
         workingDirectory: './docs/CalculatorDocumentation'
-        azureSubscriptionEndpoint: 'Microsoft Azure Sponsorship (b33f0285-db27-4896-ac5c-df22004b0aba)'
+        azureSubscriptionEndpoint: 'azure-basta-docfx'
         azureContainerRegistry: bastadocfx.azurecr.io
