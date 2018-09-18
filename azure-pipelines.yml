@@ -3,14 +3,13 @@
 # Add steps that run tests, create a NuGet package, deploy, and more:
 # https://docs.microsoft.com/vsts/pipelines/languages/dotnet-core
 
-pool:
-  vmImage: 'vs2017-win2016'
-
 variables:
   buildConfiguration: 'Release'
 
 jobs:
   - job: Build and Test Code
+    pool:
+      vmImage: 'ubuntu-16.04'
     steps:
     - script: dotnet restore
       displayName: 'Restore NuGet Packages'
@@ -46,7 +45,11 @@ jobs:
         archiveType: 'zip'
         archiveFile: '$(Build.ArtifactStagingDirectory)/Calculator-$(Build.BuildId).zip' 
 
+    - task: PublishBuildArtifacts@1
+
   - job: Build Documentation
+    pool:
+      vmImage: 'vs2017-win2016'
     steps:
     - script: dotnet build --configuration $(buildConfiguration)
       workingDirectory: ./docs/CalculatorDocumentation
@@ -59,4 +62,4 @@ jobs:
         archiveType: 'zip'
         archiveFile: '$(Build.ArtifactStagingDirectory)/CalculatorDocs-$(Build.BuildId).zip' 
 
-  - task: PublishBuildArtifacts@1
+    - task: PublishBuildArtifacts@1
