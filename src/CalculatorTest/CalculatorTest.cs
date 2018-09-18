@@ -13,5 +13,10 @@ namespace CalculatorTest
             Assert.Equal(2, Calculator.Div(10, 5));
         }
         #endregion
+        [Fact]
+        public void FailingDivision()
+        {
+            Assert.Equal(3, Calculator.Div(10, 5));
+        }
     }
 }
