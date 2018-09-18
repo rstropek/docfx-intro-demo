@@ -68,7 +68,7 @@ jobs:
 
     - task: Docker@1
       displayName: 'Build image for docs website'
-      workingDirectory: './docs/CalculatorDocumentation'
       inputs:
+        workingDirectory: './docs/CalculatorDocumentation'
         azureSubscriptionEndpoint: 'Microsoft Azure Sponsorship (b33f0285-db27-4896-ac5c-df22004b0aba)'
         azureContainerRegistry: bastadocfx.azurecr.io
