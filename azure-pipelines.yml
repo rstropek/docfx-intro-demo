@@ -28,7 +28,7 @@ steps:
   displayName: 'Build and run tests'
 
 - task: PublishTestResults@2
-  condition: always
+  condition: always()
   inputs:
     testResultsFormat: 'VSTest'
     testResultsFiles: './TestResults/*.trx' 
