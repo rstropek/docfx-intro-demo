@@ -34,9 +34,11 @@ jobs:
       condition: always()
       displayName: 'Publish Test Results'
       inputs:
-        testResultsFormat: 'VSTest'
-        testResultsFiles: '$(Build.SourcesDirectory)/src/CalculatorTest/TestResults/*.trx'
-        buildConfiguration: $(buildConfiguration))
+        #testResultsFormat: 'VSTest'
+        #testResultsFiles: '$(Build.SourcesDirectory)/src/CalculatorTest/TestResults/*.trx'
+        testRunner: VSTest
+        testResultsFiles: '**/*.trx'
+        buildConfiguration: $(buildConfiguration)
 
     - task: ArchiveFiles@2
       inputs:
