@@ -17,7 +17,9 @@ steps:
   workingDirectory: ./src/CalculatorLibrary
   displayName: 'Build Calculator Library'
 
-- script: dotnet build --configuration $(buildConfiguration)
+- script: |
+    dotnet build --configuration $(buildConfiguration)
+    dotnet publish --configuration $(buildConfiguration) --output out
   workingDirectory: ./src/Calculator
   displayName: 'Build Calculator Web API'
 
@@ -29,7 +31,32 @@ steps:
 
 - task: PublishTestResults@2
   condition: always()
+  workingDirectory: ./src/CalculatorTest
+  displayName: 'Publish Test Results'
   inputs:
     testResultsFormat: 'VSTest'
     testResultsFiles: './TestResults/*.trx' 
     buildConfiguration: $(buildConfiguration))
+
+- script: dotnet build --configuration $(buildConfiguration)
+  workingDirectory: ./docs/CalculatorDocumentation
+  displayName: 'Build Calculator Documentation'
+
+- task: ArchiveFiles@2
+  workingDirectory: ./src/Calculator
+  inputs:
+    rootFolderOrFile: 'out' 
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/Calculator-$(Build.BuildId).zip' 
+
+- task: ArchiveFiles@2
+  workingDirectory: ./docs/CalculatorDocumentation
+  inputs:
+    rootFolderOrFile: '_site' 
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/CalculatorDocs-$(Build.BuildId).zip' 
+
+- task: PublishBuildArtifacts@1
+  inputs:
