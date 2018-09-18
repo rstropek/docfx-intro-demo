@@ -31,11 +31,10 @@ steps:
 
 - task: PublishTestResults@2
   condition: always()
-  workingDirectory: ./src/CalculatorTest
   displayName: 'Publish Test Results'
   inputs:
     testResultsFormat: 'VSTest'
-    testResultsFiles: './TestResults/*.trx' 
+    testResultsFiles: './**/TestResults/*.trx'
     buildConfiguration: $(buildConfiguration))
 
 - script: dotnet build --configuration $(buildConfiguration)
@@ -43,20 +42,17 @@ steps:
   displayName: 'Build Calculator Documentation'
 
 - task: ArchiveFiles@2
-  workingDirectory: ./src/Calculator
   inputs:
-    rootFolderOrFile: 'out' 
+    rootFolderOrFile: './src/Calculator/out'
     includeRootFolder: false
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/Calculator-$(Build.BuildId).zip' 
 
 - task: ArchiveFiles@2
-  workingDirectory: ./docs/CalculatorDocumentation
   inputs:
-    rootFolderOrFile: '_site' 
+    rootFolderOrFile: './docs/CalculatorDocumentation/_site'
     includeRootFolder: false
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/CalculatorDocs-$(Build.BuildId).zip' 
 
 - task: PublishBuildArtifacts@1
-  inputs:
