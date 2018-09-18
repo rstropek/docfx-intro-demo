@@ -23,9 +23,13 @@ steps:
 
 - script: |
     dotnet build --configuration $(buildConfiguration)
-    dotnet test --results-directory .
+    dotnet test --results-directory TestResults --logger:trx
   workingDirectory: ./src/CalculatorTest
   displayName: 'Build and run tests'
 
-- script: ls -laR
-  displayName: 'Show results'
+- task: PublishTestResults@2
+  condition: always
+  inputs:
+    testResultsFormat: 'VSTest'
+    testResultsFiles: './TestResults/*.trx' 
+    buildConfiguration: $(buildConfiguration))
