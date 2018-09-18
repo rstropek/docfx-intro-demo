@@ -1,0 +1,11 @@
+# @host = https://basta-docfx-api-test.azurewebsites.net
+@host = https://basta-docfx-api.azurewebsites.net
+
+###
+POST {{host}}/api/calculator
+Content-Type: application/json
+
+{
+    "dividend": 10,
+    "divisor": 5
+}
