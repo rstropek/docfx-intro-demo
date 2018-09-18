@@ -10,5 +10,22 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
+- script: dotnet restore
+  displayName: 'Restore NuGet Packages'
+
 - script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
+  workingDirectory: ./src/CalculatorLibrary
+  displayName: 'Build Calculator Library'
+
+- script: dotnet build --configuration $(buildConfiguration)
+  workingDirectory: ./src/Calculator
+  displayName: 'Build Calculator Web API'
+
+- script: |
+    dotnet build --configuration $(buildConfiguration)
+    dotnet test --results-directory .
+  workingDirectory: ./src/CalculatorTest
+  displayName: 'Build and run tests'
+
+- script: ls -laR
+  displayName: 'Show results'
