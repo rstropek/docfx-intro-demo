@@ -1,0 +1,11 @@
+apiRules: 
+  - exclude:
+      uidRegex: ^CalculatorWebApi\.Program
+  - exclude:
+      uidRegex: ^CalculatorWebApi\.Startup
+  - exclude:
+      uidRegex: ^Microsoft\.AspNetCore
+  - exclude:
+      uidRegex: ^System.Object
+  - exclude:
+      uidRegex: ^CalculatorTest

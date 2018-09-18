@@ -1,0 +1,6 @@
+- name: Architectural Overview
+  href: architecture.md
+- name: Web API Access via JS
+  href: webapi_js.md
+- name: README
+  href: readme.md
