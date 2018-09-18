@@ -65,10 +65,3 @@ jobs:
         archiveFile: '$(Build.ArtifactStagingDirectory)/CalculatorDocs-$(Build.BuildId).zip' 
 
     - task: PublishBuildArtifacts@1
-
-    - task: Docker@1
-      displayName: 'Build image for docs website'
-      inputs:
-        workingDirectory: './docs/CalculatorDocumentation'
-        azureSubscriptionEndpoint: 'azure-basta-docfx'
-        azureContainerRegistry: bastadocfx.azurecr.io
