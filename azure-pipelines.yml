@@ -9,50 +9,54 @@ pool:
 variables:
   buildConfiguration: 'Release'
 
-steps:
-- script: dotnet restore
-  displayName: 'Restore NuGet Packages'
+jobs:
+  - job: Build and Test Code
+    steps:
+    - script: dotnet restore
+      displayName: 'Restore NuGet Packages'
 
-- script: dotnet build --configuration $(buildConfiguration)
-  workingDirectory: ./src/CalculatorLibrary
-  displayName: 'Build Calculator Library'
+    - script: dotnet build --configuration $(buildConfiguration)
+      workingDirectory: ./src/CalculatorLibrary
+      displayName: 'Build Calculator Library'
 
-- script: |
-    dotnet build --configuration $(buildConfiguration)
-    dotnet publish --configuration $(buildConfiguration) --output out
-  workingDirectory: ./src/Calculator
-  displayName: 'Build Calculator Web API'
+    - script: |
+        dotnet build --configuration $(buildConfiguration)
+        dotnet publish --configuration $(buildConfiguration) --output out
+      workingDirectory: ./src/Calculator
+      displayName: 'Build Calculator Web API'
 
-- script: |
-    dotnet build --configuration $(buildConfiguration)
-    dotnet test --results-directory TestResults --logger:trx
-  workingDirectory: ./src/CalculatorTest
-  displayName: 'Build and run tests'
+    - script: |
+        dotnet build --configuration $(buildConfiguration)
+        dotnet test --results-directory TestResults --logger:trx
+      workingDirectory: ./src/CalculatorTest
+      displayName: 'Build and run tests'
 
-- task: PublishTestResults@2
-  condition: always()
-  displayName: 'Publish Test Results'
-  inputs:
-    testResultsFormat: 'VSTest'
-    testResultsFiles: './**/TestResults/*.trx'
-    buildConfiguration: $(buildConfiguration))
+    - task: PublishTestResults@2
+      condition: always()
+      displayName: 'Publish Test Results'
+      inputs:
+        testResultsFormat: 'VSTest'
+        testResultsFiles: '$(Build.SourcesDirectory)/src/CalculatorTest/TestResults/*.trx'
+        buildConfiguration: $(buildConfiguration))
 
-- script: dotnet build --configuration $(buildConfiguration)
-  workingDirectory: ./docs/CalculatorDocumentation
-  displayName: 'Build Calculator Documentation'
+    - task: ArchiveFiles@2
+      inputs:
+        rootFolderOrFile: './src/Calculator/out'
+        includeRootFolder: false
+        archiveType: 'zip'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/Calculator-$(Build.BuildId).zip' 
 
-- task: ArchiveFiles@2
-  inputs:
-    rootFolderOrFile: './src/Calculator/out'
-    includeRootFolder: false
-    archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/Calculator-$(Build.BuildId).zip' 
+  - job: Build Documentation
+    steps:
+    - script: dotnet build --configuration $(buildConfiguration)
+      workingDirectory: ./docs/CalculatorDocumentation
+      displayName: 'Build Calculator Documentation'
 
-- task: ArchiveFiles@2
-  inputs:
-    rootFolderOrFile: './docs/CalculatorDocumentation/_site'
-    includeRootFolder: false
-    archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/CalculatorDocs-$(Build.BuildId).zip' 
+    - task: ArchiveFiles@2
+      inputs:
+        rootFolderOrFile: './docs/CalculatorDocumentation/_site'
+        includeRootFolder: false
+        archiveType: 'zip'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/CalculatorDocs-$(Build.BuildId).zip' 
 
-- task: PublishBuildArtifacts@1
+  - task: PublishBuildArtifacts@1
