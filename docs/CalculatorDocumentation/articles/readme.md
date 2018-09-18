@@ -318,3 +318,25 @@ overwrite configures the path to markdownfiles replacing parts of the generated 
     ],
 ```
 The top template (default in this case) is the first one to be applied, after that, our custom one (templates folder) overrides parts of the default one. Remember, for our template to override the default one, it has to resemble the original's folder structure.
+
+# Deploying via Azure DevOps
+
+In the Solution root there is a file called azure-pipelines.yml where the configuration for building and deploying the application is.
+
+We have 2 jobs, which are separated into different tasks and scripts. The first one (BuildandTestCode) runs on Linux, 
+the other one (BuildDocumentation) on Windows, because docfx.exe is not cross-platform compatible (as it targets the full .NET-framework).
+
+The job "BuildandTestCode" does the following:
+- Restores the NuGet Packages
+- Builds the Calculator Library
+- Builds the Calculator Web Api
+- Publishes the Web Api program
+- Builds the Calculator Tests
+- Runs the tests
+- and publishes the test results as a .zip-file
+
+The job "BuildDocumentation"
+- is executed only if the former job succeeded
+- builds the CalculatorDocumentation project
+- Generates the _site folder with the docs
+- Publishes _site as a .zip-file
