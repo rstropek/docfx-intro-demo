@@ -50,6 +50,8 @@ jobs:
     - task: PublishBuildArtifacts@1
 
   - job: BuildDocumentation
+    dependsOn: BuildandTestCode
+    condition: succeeded('BuildandTestCode')
     pool:
       vmImage: 'vs2017-win2016'
     steps:
