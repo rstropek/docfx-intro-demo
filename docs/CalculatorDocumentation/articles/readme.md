@@ -18,8 +18,7 @@ Next create a new .NET core-class library within your solution and add the follo
 
 [!code-csharp[SimpleDivision](../../../src/CalculatorLibrary/Calculator.cs)]
 
-In the Web Application change the Controller's code with the following one. The Web API Controller is just responsible for calling a 
-method that's in our business logic and return the result. Nothing special.
+In the Web Application change the Controller's code with the following one. The Web API Controller is just responsible for calling a method that's in our business logic and return the result. Nothing special.
 
 [!code-csharp[CalculatorController](../../../src/Calculator/Controllers/CalculatorController.cs)]
 
@@ -97,7 +96,7 @@ can be useful often.
 ## Filtering unnecessary elements
 
 Some information doesn't help us understand software better. Therefore certain files or code can be hidden from docs.
-For that we just create a *filterConfig.yml* file in the docs root folder. DocFx looks which code is matched by the regular expressions defined in the file. 
+For that we just create a *filterConfig.yml* file in the docs root folder. DocFx looks which code is matched by the regular expressions defined in the file.
 
 We've excluded the *Program* and *Startup* classes, as their job ist just setting up the projects and some external library code we don't need to know about.
 
@@ -190,8 +189,7 @@ To round it up a short explanation of the docfx config file:
 
 [!code-json[metadata](../docfx.json#L2-L15)]
 
-Docfx will generate metadata from .csproj files that are within the specified *src* folder, and put the results in the *api/* directory, 
-doing all that with the specified filter configuration.
+Docfx will generate metadata from .csproj files that are within the specified *src* folder, and put the results in the *api/* directory, doing all that with the specified filter configuration.
 If you happen to have *cs* files that are in no projects, you can also include them in the files array.
 
 ### build
@@ -204,13 +202,13 @@ If you happen to have *cs* files that are in no projects, you can also include t
 
 in the content array the conceptual files to be included in the documentation are specified.
 
-#### resource:
+#### resource
 
 [!code-json[metadata](../docfx.json#L30-L36)]
 
 We don't use it in this example, but it's possible to include pictures in the documentation. The directory containing the images is specified here.
 
-#### overwrite:
+#### overwrite
 
 [!code-json[metadata](../docfx.json#L37-L43)]
 
@@ -220,7 +218,7 @@ We don't use it in this example, but it's possible to include pictures in the do
 
 [!code-json[docfx.json](../docfx.json#L47-L50)]
 
-The top template (default in this case) is the first one to be applied, after that, our custom one (*templates* folder) overrides parts of the default one. 
+The top template (default in this case) is the first one to be applied, after that, our custom one (*templates* folder) overrides parts of the default one.
 
 > Remember, for our template to override the default one, it has to resemble the original's folder structure.
 
@@ -228,7 +226,6 @@ The top template (default in this case) is the first one to be applied, after th
 
 In the solution root there is a file called *azure-pipelines.yml* where the configuration for building and deploying the application is.
 
-We have 2 jobs, which are separated into different tasks and scripts. The first one (*BuildandTestCode*) runs on Linux, 
-the other one (*BuildDocumentation*) on Windows, because *docfx.exe* is not cross-platform compatible (as it targets the full .NET-framework).
+We have 2 jobs, which are separated into different tasks and scripts. The first one (*BuildandTestCode*) runs on Linux, the other one (*BuildDocumentation*) on Windows, because *docfx.exe* is not cross-platform compatible (as it targets the full .NET-framework).
 
 [!code-yaml[azure-pipelines](../../../azure-pipelines.yml)]
