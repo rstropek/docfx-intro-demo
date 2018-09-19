@@ -1,11 +1,13 @@
 # .NET Documentation using DOCFX
 
 ## Introduction
+
 This tutorial helps you create useful doucmentation for your ASP.NET core-project using DOCFX.
 docfx's features are generating documentation from your C#-code, as well as from Swagger-conform json-files describing a REST API.
 You can also include conceptual markdown files to have documentation written in your own words.
 
 ## Prerequisites
+
 Make sure you have a recent edition of Visual Studio as well as ASP.NET Core installed.
 
 ## Getting Started
@@ -33,19 +35,23 @@ Now the code is set for our little example.
 Next step is setting up the documentation. For that create a new empty .NET Core Web project and install the NuGet-package "docfx.console".
 
 ## Generating code documentation
+
 Building the docs web project will set up all files needed for the documentation.
 In order to generate the documentation from source, we need the DocFx command line tool (install it either via MSI or Chocolatery)
 [Installer](https://github.com/dotnet/docfx/releases)
 
 [Chocolatery](https://chocolatey.org/install) and install command:
+
 ```cmd
 choco install docfx -y
 ```
+
 The documentation output is saved to a _site directory within the project root, and can be served by any web server. For generating files and serving the site type
 
 ```cmd
 docfx --serve
 ```
+
 in the project root (or elsewhere and specify the path to the docfx.json config file.)
 
 For our code to be found we have to tell docfx where it is, that's done within "metadata" in our docfx.json; specify the path to your src:
@@ -78,13 +84,14 @@ Each bullet point is one element in the site's nav bar at the top.
 - name: REST API
   href: restapi/
 ```
+
 Within the folders there can be *.yml files describing code or *.md files with text or another toc file.
 The second toc file's content is displayed in a nav bar at the left-hand side of the page. But you can also nest toc-files even more - DocFx searches the folder structure recursively for toc-files. Those other toc-files will be nested on the left nav bar.
 
 ## Getting documentation for REST Services
 
 DocFx is able to read REST service information that's in swagger/open api format.
-Just put those file(s) in a folder, and create an according toc.yml there - the rest is up to DocFx. 
+Just put those file(s) in a folder, and create an according toc.yml there - the rest is up to DocFx.
 
 ```yml
 - name: REST API
@@ -323,10 +330,11 @@ The top template (default in this case) is the first one to be applied, after th
 
 In the Solution root there is a file called azure-pipelines.yml where the configuration for building and deploying the application is.
 
-We have 2 jobs, which are separated into different tasks and scripts. The first one (BuildandTestCode) runs on Linux, 
+We have 2 jobs, which are separated into different tasks and scripts. The first one (*BuildandTestCode*) runs on Linux, 
 the other one (BuildDocumentation) on Windows, because docfx.exe is not cross-platform compatible (as it targets the full .NET-framework).
 
-The job "BuildandTestCode" does the following:
+The job *BuildandTestCode* does the following:
+
 - Restores the NuGet Packages
 - Builds the Calculator Library
 - Builds the Calculator Web Api
@@ -336,7 +344,8 @@ The job "BuildandTestCode" does the following:
 - and publishes the test results as a .zip-file
 
 The job "BuildDocumentation"
+
 - is executed only if the former job succeeded
 - builds the CalculatorDocumentation project
 - Generates the _site folder with the docs
-- Publishes _site as a .zip-file
+- Publishes *_site* as a .zip-file
