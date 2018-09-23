@@ -2,9 +2,7 @@
 
 ## Introduction
 
-This tutorial helps you create doucmentation for your ASP.NET core-project using DOCFX.
-Docfx's features are generating documentation from your C#-code, as well as from Swagger-conform json-files describing a REST API.
-You can also include conceptual markdown files to have documentation written in your own words.
+This tutorial helps you create doucmentation for your ASP.NET core-project using DOCFX. Docfx's features are generating documentation from your C#-code, as well as from Swagger-conform json-files describing a REST API. You can also include conceptual markdown files to have documentation written in your own words.
 
 ## Prerequisites
 
@@ -12,13 +10,15 @@ Make sure you have a recent edition of Visual Studio as well as ASP.NET Core ins
 
 ## Getting Started
 
-First of all we set up 3 simple .NET Core projects to generate documentation from.
-Open Visual Studio and create a new .NET Core-Web application and select API.
-Next create a new .NET core-class library within your solution and add the following code. This is the small business logic in our example.
+> If you do not want to create the demo solution manually, you can copy the [*src* folder from GitHub](https://github.com/rstropek/docfx-intro-demo/tree/master/src).
+
+First of all we set up 3 simple .NET Core projects to generate documentation from. In your project's root folder, create a *src* folder. Put the following three projects into this *src* folder.
+
+Open Visual Studio and create a new .NET Core-Web application and select API. Next create a new .NET core-class library within your solution and add the following code. This is the small business logic in our example.
 
 [!code-csharp[SimpleDivision](../../../src/CalculatorLibrary/Calculator.cs)]
 
-In the Web Application change the Controller's code with the following one. The Web API Controller is just responsible for calling a method that's in our business logic and return the result. Nothing special.
+In the Web Application replace the Controller's code with the following one. The Web API Controller is just responsible for calling a method that's in our business logic and return the result. Nothing special.
 
 [!code-csharp[CalculatorController](../../../src/Calculator/Controllers/CalculatorController.cs)]
 
@@ -32,7 +32,9 @@ Next we create a .NET Core xUnit Test project with a simple unit test as follows
 
 Now the code is set for our little example.
 
-Next step is setting up the documentation. For that create a new empty .NET Core Web project and install the NuGet-package "docfx.console".
+## Create Empty Web Project for Documentation
+
+Next step is setting up the documentation. For that create a *docs* folder in the root folder of your project. In *docs*, create a new empty .NET Core Web project and install the NuGet-package [*docfx.console*](https://www.nuget.org/packages/docfx.console/).
 
 ## Generating code documentation
 
@@ -40,7 +42,7 @@ Building the docs web project will set up all files needed for the documentation
 
 The documentation output is saved to a _site directory within the project root, and can be served by any web server.
 
-For our code to be found we have to tell docfx where it is, that's done within "metadata" in our docfx.json; specify the path to your src:
+For our code to be found we have to tell docfx where it is, that's done within `metadata` in our *docfx.json*; specify the path to your src:
 
 [!code-json[docfx.json](../docfx.json#L4-L11)]
 
@@ -57,8 +59,7 @@ A sample toc-file could look like this:
 Each bullet point is one element in the site's nav bar at the top.
 *name* is the title displayed in the documentation and *href* is the relative path to a folder.
 
-Within the folders there can be *yml* files describing code or *md* files with text or another toc file.
-The second toc file's content is displayed in a nav bar at the left-hand side of the page. But you can also nest toc-files even more - DocFx searches the folder structure recursively for toc-files. Those other toc-files will be nested on the left nav bar.
+Within the folders there can be *yml* files describing code or *md* files with text or another toc file. The second toc file's content is displayed in a nav bar at the left-hand side of the page. But you can also nest toc-files even more - DocFx searches the folder structure recursively for toc-files. Those other toc-files will be nested on the left nav bar.
 
 ## Getting documentation for REST Services
 
@@ -85,8 +86,7 @@ Now everytime we build this project a swagger json file is generated.
 
 ## Adding conceptual markdown-files
 
-Often it's useful to have some verbal explanation along the technical documentation. For that, markdown-files can be added.
-Just place them in a folder and add them to its toc-file. (In this example the conceptual files are located in /articles )
+Often it's useful to have some verbal explanation along the technical documentation. For that, markdown-files can be added. Just place them in a folder and add them to its toc-file. (In this example the conceptual files are located in /articles )
 
 ```md
 # Conceptual files
